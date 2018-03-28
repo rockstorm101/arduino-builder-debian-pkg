@@ -61,14 +61,16 @@ override_dh_auto_configure:
 	cp -r -t obj-*/src/ src/*
 
 override_dh_auto_test:
+ifeq (,$(findstring nocheck,$(DEB_BUILD_OPTIONS)))
 	# Remove tests which download stuff:
 	@for extest in $(EXCLUDED_TESTS) ; do \
 		rm -v obj-*/src/arduino.cc/builder/test/$$extest; \
 	done
-	# Execute tests
+	# Execute the rest of the tests
 	cd obj-* &&\
 	export GOPATH=$$(pwd) &&\
 	go test -v -timeout 30m arduino.cc/...
+endif
 
 override_dh_auto_install:
 	dh_auto_install -- --no-source
