@@ -1,0 +1,21 @@
+Maintainer Notes
+================
+
+ * To regenerate the 'arduino-builder.1' file:
+ 
+    ronn --roff --manual="General Commands Manual" --date=$(date +%F) \
+    --organization="Arduino AG" -w debian/arduino-builder.1.md
+
+ * To download both the upstream tarball and the signature, and verify the
+   download using the keyring file:
+
+    uscan
+
+ * Fetch a new version of the upstream tarball, merge it into the
+   "upstream" branch and then merge "upstream" into the "master" branch:
+
+    gbp import-orig --uscan
+
+ * Building:
+
+    gbp buildpackage
